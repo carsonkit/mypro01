@@ -1,9 +1,24 @@
 <?php
   session_start();
+  require("function.php");
 
   $name = $_SESSION['name'];
   $hobby = $_SESSION['email'];
   $gender = $_SESSION['gender'];
+
+  $dbn = db_conn();
+  try{ 
+    $sql = "INSERT INTO user (email, name, gender) VALUE (:email, :name, :gender)"; 
+    $stmt = $pdo->prepare($sql); 
+    $stmt->bindValue(':email', $email, PDO::PARAM_STR); 
+    $stmt->bindValue(':name', $namel, PDO::PARAM_STR);
+    $stmt->bindValue(':gender', $gender, PDO::PARAM_INT);
+    $stmt->execute(); 
+    $dbn = null; 
+}catch (PDOException $e){ 
+    echo($e->getMessage()); 
+    die(); 
+} 
 ?>
 
 <!DOCTYPE html>
